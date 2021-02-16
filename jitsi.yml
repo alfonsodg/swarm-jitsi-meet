@@ -4,9 +4,9 @@ services:
     # Frontend
     web:
         image: jitsi/web
-        #ports:
-            #- '${HTTP_PORT}:80'
-            #- '${HTTPS_PORT}:443'
+        ports:
+            - '${HTTP_PORT}:80'
+            - '${HTTPS_PORT}:443'
         deploy:
             labels:
             - traefik.enable=true
@@ -21,9 +21,9 @@ services:
             - traefik.http.routers.jitsi-https.tls.certresolver=le
             - traefik.http.services.jitsi.loadbalancer.server.port=80
         volumes:
-            - ${CONFIG}/web:/config
-            - ${CONFIG}/web/letsencrypt:/etc/letsencrypt
-            - ${CONFIG}/transcripts:/usr/share/jitsi-meet/transcripts
+            - /mnt/jitsi-meet/jitsi-meet-cfg/web:/config
+            - /mnt/jitsi-meet/jitsi-meet-cfg/web/letsencrypt:/etc/letsencrypt
+            - /mnt/jitsi-meet/jitsi-meet-cfg/transcripts:/usr/share/jitsi-meet/transcripts
         environment:
             - ENABLE_AUTH
             - ENABLE_GUESTS
@@ -61,7 +61,7 @@ services:
     prosody:
         image: jitsi/prosody
         volumes:
-            - ${CONFIG}/prosody:/config
+            - /mnt/jitsi-meet/jitsi-meet-cfg/prosody:/config
         environment:
             - AUTH_TYPE
             - ENABLE_AUTH
@@ -120,7 +120,7 @@ services:
     jicofo:
         image: jitsi/jicofo
         volumes:
-            - ${CONFIG}/jicofo:/config
+            - /mnt/jitsi-meet/jitsi-meet-cfg/jicofo:/config
         environment:
             - ENABLE_AUTH
             - XMPP_DOMAIN
@@ -156,7 +156,7 @@ services:
               protocol: tcp
               mode: host
         volumes:
-            - ${CONFIG}/jvb:/config
+            - /mnt/jitsi-meet/jitsi-meet-cfg/jvb:/config
         environment:
             - DOCKER_HOST_ADDRESS
             - XMPP_AUTH_DOMAIN
@@ -181,8 +181,8 @@ services:
         ports:
             - '${JIGASI_PORT_MIN}-${JIGASI_PORT_MAX}:${JIGASI_PORT_MIN}-${JIGASI_PORT_MAX}/udp'
         volumes:
-            - ${CONFIG}/jigasi:/config
-            - ${CONFIG}/transcripts:/tmp/transcripts
+            - /mnt/jitsi-meet/jitsi-meet-cfg/jigasi:/config
+            - /mnt/jitsi-meet/jitsi-meet-cfg/transcripts:/tmp/transcripts
         environment:
             - ENABLE_AUTH
             - XMPP_AUTH_DOMAIN
