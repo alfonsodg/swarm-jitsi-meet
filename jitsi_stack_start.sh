@@ -1,11 +1,11 @@
 # EDIT the CONFIG, point to the location of your jitsi meet cfg location (ex: /opt/jitsi-meet-cfg)
 #      the PUBLIC_URL: your jitsi public url
 
-CONFIG=/mnt/nfs/jitsi-meet-cfg \
-PUBLIC_URL="https://jitsi.<yourdomain>.com" \
+CONFIG=/mnt/jitsi-meet/jitsi-meet-cfg \
+PUBLIC_URL="https://comed.veo365.com" \
 
 ENABLE_LETSENCRYPT=0 \
-TZ=Asia/Ho_Chi_Minh \
+TZ=America/Lima \
 XMPP_DOMAIN=meetjitsi \
 XMPP_SERVER=xmpp.meetjitsi \
 XMPP_BOSH_URL_BASE=http://xmpp.meetjitsi:5280 \

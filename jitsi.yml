@@ -4,15 +4,22 @@ services:
     # Frontend
     web:
         image: jitsi/web
-        ports:
-            - '${HTTP_PORT}:80'
-            - '${HTTPS_PORT}:443'
+        #ports:
+            #- '${HTTP_PORT}:80'
+            #- '${HTTPS_PORT}:443'
         deploy:
             labels:
-                traefik.port: 80
-                traefik.enable: 1
-# EDIT ME: change Host to match your jitsi public hostname
-                traefik.f1.frontend.rule: Host:jitsi.<yourdomain>.com
+            - traefik.enable=true
+            - traefik.docker.network=traefik-public
+            - traefik.constraint-label=traefik-public
+            - traefik.http.routers.jitsi-http.rule=Host(`comed.veo365.com`)
+            - traefik.http.routers.jitsi-http.entrypoints=http
+            - traefik.http.routers.jitsi-http.middlewares=https-redirect
+            - traefik.http.routers.jitsi-https.rule=Host(`comed.veo365.com`)
+            - traefik.http.routers.jitsi-https.entrypoints=https
+            - traefik.http.routers.jitsi-https.tls=true
+            - traefik.http.routers.jitsi-https.tls.certresolver=le
+            - traefik.http.services.jitsi.loadbalancer.server.port=80
         volumes:
             - ${CONFIG}/web:/config
             - ${CONFIG}/web/letsencrypt:/etc/letsencrypt
@@ -48,7 +55,7 @@ services:
                 aliases:
                     - ${XMPP_DOMAIN}
 # EDIT ME
-            traefik_network:
+            traefik-public:
 
     # XMPP server
     prosody:
@@ -166,11 +173,6 @@ services:
             - TZ
         depends_on:
             - prosody
-        deploy:
-            placement:
-# Need to configure DNS to point jitsi.<mydomain>.com to this t01 swarm node
-# EDIT ME: change t01_swarmnode to your docker swarm node name
-                constraints: [node.hostname == t01_swarmnode]
         networks:
             meetjitsi:
 
@@ -226,5 +228,5 @@ networks:
         driver: overlay
         attachable: true
 # EDIT ME
-    traefik_network:
+    traefik-public:
         external: true
