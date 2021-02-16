@@ -25,6 +25,7 @@ services:
             - /mnt/jitsi-meet/jitsi-meet-cfg/web/letsencrypt:/etc/letsencrypt
             - /mnt/jitsi-meet/jitsi-meet-cfg/transcripts:/usr/share/jitsi-meet/transcripts
         environment:
+            - ENABLE_XMPP_WEBSOCKET
             - ENABLE_AUTH
             - ENABLE_GUESTS
             - ENABLE_LETSENCRYPT
@@ -63,6 +64,7 @@ services:
         volumes:
             - /mnt/jitsi-meet/jitsi-meet-cfg/prosody:/config
         environment:
+            - ENABLE_XMPP_WEBSOCKET
             - AUTH_TYPE
             - ENABLE_AUTH
             - ENABLE_GUESTS

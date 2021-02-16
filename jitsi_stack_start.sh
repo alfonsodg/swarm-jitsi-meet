@@ -43,4 +43,8 @@ JIBRI_PENDING_TIMEOUT=90 \
 JIBRI_STRIP_DOMAIN_JID=muc \
 JIBRI_LOGS_DIR=/config/logs \
 DISABLE_HTTPS=1 \
+ENABLE_XMPP_WEBSOCKET=0 \
+ENABLE_AUTH=1 \
+ENABLE_GUESTS=1 \
+AUTH_TYPE=internal \
 docker stack deploy -c jitsi.yml jitsi
